@@ -1,0 +1,153 @@
+Sample Application
+https://www.insightly.com/
+
+Prescribing
+https://qa1.vnext.xyz/release1-10-Web
+
+CES
+Url : https://cestestexternal-idp.civicaed.com.au/
+User : dhaval.kacha
+Pass : Testing123
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Properties file key format
+testEnvironment-> $key
+runtimeDataRepo-> &key
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Regular expression used
+
+user navigates to the '(.*)' (page|tab)
+
+(.*) -> Any text
+(page|tab) -> Accept either page or tab
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Available Phrase
+
+Action phrases
+
+//For login
+user login as '(.*)' user
+
+//For page navigation and it will set current page
+user navigates to the '(.*)' (page|tab)
+
+//To enter values
+user fills out the current form as follows
+      | Element     | Type    | Value           | Alias     |
+      | searchUsing | dropbox | Patient Details |           |
+
+//To click on element
+user clicks on the '(.*)' element
+
+//To click on button. locating element is not required
+user clicks on the '(.*)' button
+
+//To click on link. locating element is not required
+user clicks on the '(.*)' link
+
+//To wait for n seconds
+user waits for '(.*)' seconds
+
+//Application spectific wait until. Need to figure out flag which determine DOM is loaded
+user waits until page is loaded
+
+//To store element text or value for future reference
+user stores '(.*)' element text with alias '(.*)' for future reference
+
+//To clear element
+user clears the '(.*)' element
+
+
+Verification phrases
+
+//To check user is on the page and it will set current page
+user is now on the '(.*)' (page|tab)
+
+//To verify element text is same as expected
+user is shown '(.*)' element with '(.*)' text
+
+//To verify element contains expected text
+user is shown '(.*)' element containing '(.*)' text
+
+//To verify element contains multiple texts. Header is for readability purpose. Sequence is not considered
+user is shown '(.*)' element containing following text
+        | Dose | Unit | Frequency      |
+        | 1000 | mg   | every 24 hours |
+        
+//To verify form contains multiple fields. Header is for readability purpose. Sequence is not considered
+user is shown '(.*)' form containing following fields
+        | field name 1 | field name 2 | field name 3 | field name 4 | field name 5  | field name 6 |
+        | Search Using | Surname      | Forename     | Gender       | Date of Birth | Post Code    | 
+        
+//To verify element contains expected list. Sequence will be considered 
+user is shown '(.*)' element containing following text in sequence
+  | value1      | value2 | value3 | value4 | value5 |
+
+//To verify table contains following columns
+user is shown '(.*)' table containing following columns
+|column name 1| column name 2|column name 3|column name 4|
+
+//To verify table contains following row
+user is shown '(.*)' table containing following row
+  | value1      | value2 | value3 | value4 | value5 |
+  
+//To verify element is displayed
+user is shown a '(.*)' element
+
+//To verify element is not displayed
+user is not shown a '(.*)' element
+
+//To verify element is enabled
+user is shown a '(.*)' element which is enabled
+
+//To verify element is disabled
+user is shown a '(.*)' element which is disabled
+
+//To verify list is equals to expected list. Both list should be equal
+user is shown a '(.*)' list which is equal to following list
+  | value1      | value2 | value3 | value4 | value5 |
+
+//To verify list contains expected list. Sequence will not be considered
+user is shown a '(.*)' list which contains following list
+  | value1      | value2 | value3 | value4 | value5 |
+
+//To verify list contains expected list. Sequence will be considered
+user is shown a '(.*)' list which contains following list in sequence
+  | value1 | value2 | value3 | value4 | value5 |
+  
+  
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  
+     // This method will return value from properties file, random values or just the
+    // passed value as per value format
+    public static String getProcessedValue(String value) throws Exception {
+        if (value.startsWith("$")) {
+            return UnitAction.GetData(value);
+        }
+        else if (value.startsWith("&")) {
+            return UnitAction.GetRunTimeData(value);
+        } 
+        
+        else if (value.equals("RANDOM_STRING")) {
+            return UnitAction.generateString(8);
+        } 
+        
+        else if (value.equals("CURRENT_DATE")) {
+            return UnitAction.getCurrentDate();
+        } 
+        
+        
+        else
+            return value;
+    }
+    
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+
+
+ 
