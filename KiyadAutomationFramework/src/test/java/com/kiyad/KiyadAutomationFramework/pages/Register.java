@@ -11,8 +11,7 @@ public class Register {
 		
 	}
 
-	public static void assertOnPage(WebDriver driver) throws InterruptedException, SecurityException,
-			InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public static void assertOnPage(WebDriver driver) throws Exception {
 
 	}
 
