@@ -4,7 +4,7 @@ Feature: This feature file contain scenarios related to create prescription
   Background: 
     Given user login as 'Admin' user
 
-
+   @Dev
   Scenario: Verify that user can register on playround application
     Then user is now on the 'Home' page
     And user clicks on the 'Handling Record Creation' link
@@ -33,7 +33,7 @@ Feature: This feature file contain scenarios related to create prescription
     Then user is shown 'message' element containing '&patientName' text
     When user waits for 10 seconds
     
-   @Dev
+
   Scenario: Verify that user can do registration 
     Then user is now on the 'Home' page
     

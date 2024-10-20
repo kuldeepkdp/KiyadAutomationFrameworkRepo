@@ -17,7 +17,7 @@ public class UserAction {
 	public static void navigateToPage(WebDriver driver, String navigateToPageName) throws Exception {
 
 		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + navigateToPageName;
-		Class cls = Class.forName(fullPathOfTheClass);
+		Class<?> cls = Class.forName(fullPathOfTheClass);
 		Method method = cls.getDeclaredMethod("navigateToPage", WebDriver.class);
 		method.invoke(null, driver);
 		UnitAction.setCurrentPage(navigateToPageName);
@@ -29,7 +29,7 @@ public class UserAction {
 
 		UnitAction.setCurrentPage(pagename);
 		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + pagename;
-		Class cls = Class.forName(fullPathOfTheClass);
+		Class<?> cls = Class.forName(fullPathOfTheClass);
 		Method method = cls.getDeclaredMethod("assertOnPage", WebDriver.class);
 		method.invoke(null, driver);
 
@@ -78,6 +78,10 @@ public class UserAction {
 
 		else if (type.equalsIgnoreCase("multiSelectDropbox")) {
 			UiControl.multiSelectDropbox(driver, element, processedValue);
+		}
+		
+		else if (type.equalsIgnoreCase("radio")) {
+			UiControl.radio(driver, element, processedValue);
 		}
 
 		else {

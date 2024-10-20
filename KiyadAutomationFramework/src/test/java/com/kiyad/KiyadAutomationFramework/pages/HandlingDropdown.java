@@ -6,7 +6,7 @@ import com.kiyad.KiyadAutomationFramework.baseFunction.UserAction;
 
 public class HandlingDropdown {
 	
-	public String header = "//h2";
+	public static String header = "//h2";
 
 	public static void navigateToPage(WebDriver driver) throws Exception {
 		

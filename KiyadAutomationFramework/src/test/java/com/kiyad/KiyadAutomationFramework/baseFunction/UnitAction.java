@@ -58,14 +58,7 @@ public class UnitAction {
         properties.save();
     }
 
-    // To Get data from elementRepo files
-    public static String GetElementRepoData(String filename, String key) throws Exception{
-
-        PropertiesConfiguration properties = new PropertiesConfiguration(
-                System.getProperty("user.dir") + "//src//test//resource//elementRepo//" + filename + ".properties");
-        return properties.getString(key);
-    }
-
+ 
     // To Get Current Page
     public static String getCurrentPage() throws Exception {
         return GetRunTimeData("currentPage");
@@ -76,50 +69,44 @@ public class UnitAction {
         SetRunTimeData("currentPage", page);
     }
 
-    // To get XPath
-    public static String getXPath(String element) throws Exception, SecurityException,
-            InstantiationException, IllegalAccessException, ClassNotFoundException {
+	// To get XPath
+	public static String getXPath(String element) throws Exception {
 
-        String xPath=null;
-        if (GetConfigData("elementRepoConifiguration").equalsIgnoreCase("file")) {
-            String filename = getCurrentPage();
-            xPath = GetElementRepoData(filename, element);
-            if(xPath==null) {
-                xPath = GetElementRepoData("Master", element);
-            }
-        } else {
+		String xPath = null;
+		Field field = null;
+		boolean isFieldAvailable = true;
 
-            String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + getCurrentPage();
+		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + getCurrentPage();
 
-            Field[] fields = Class.forName(fullPathOfTheClass).newInstance().getClass().getDeclaredFields();
+		Class<?> cls = Class.forName(fullPathOfTheClass);
 
-            for (Field field : fields) {
+		try {
 
-                String a = field.getName();
-                if (a.equals(element)) {
-                    xPath = field.get(Class.forName(fullPathOfTheClass).newInstance()).toString();
-                    break;
-                }
-            }
-            
-            if(xPath==null) {
-                String fullPathOfTheMasterClass = "com.kiyad.KiyadAutomationFramework.pages.Master";
+			field = cls.getDeclaredField(element);
 
-                Field[] masterClassFields = Class.forName(fullPathOfTheMasterClass).newInstance().getClass().getDeclaredFields();
+		} catch (Exception e) {
 
-                for (Field field : masterClassFields) {
+			isFieldAvailable = false;
+		}
 
-                    String a = field.getName();
-                    if (a.equals(element)) {
-                        xPath = field.get(Class.forName(fullPathOfTheMasterClass).newInstance()).toString();
-                        break;
-                    }
-                }
-            }
+		if (isFieldAvailable) {
 
-        }
-        return xPath;
-    }
+			xPath = (String) field.get(null);
+
+		} else {
+
+			String fullPathOfTheMasterClass = "com.kiyad.KiyadAutomationFramework.pages.Master";
+
+			Class<?> cls2 = Class.forName(fullPathOfTheMasterClass);
+
+			Field field2 = cls2.getDeclaredField(element);
+
+			xPath = (String) field2.get(null);
+
+		}
+
+		return xPath;
+	}
 
     // To get JavascriptExecutor object
     public static JavascriptExecutor getJavascriptExecutor(WebDriver driver) {
