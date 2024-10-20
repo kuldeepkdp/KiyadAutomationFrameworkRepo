@@ -1,13 +1,15 @@
-Sample Application
-https://www.insightly.com/
+Master page class
 
-Prescribing
-https://qa1.vnext.xyz/release1-10-Web
+Master page class should contains elements which are access from all screens of an application
+like Navigation related elements.
 
-CES
-Url : https://cestestexternal-idp.civicaed.com.au/
-User : dhaval.kacha
-Pass : Testing123
+We can also use Master page class to dump common elements.
+
+We don't need to extend Master page class, this concepts is hard coded in framework.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+variales and methods under page class should be public static
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Properties file key format

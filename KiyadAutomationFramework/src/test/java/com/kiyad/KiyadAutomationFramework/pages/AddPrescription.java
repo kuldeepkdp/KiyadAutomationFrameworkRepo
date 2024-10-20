@@ -7,12 +7,12 @@ import com.kiyad.KiyadAutomationFramework.baseFunction.UserAction;
 
 public class AddPrescription {
 	
-	public String header = "//h2";
-	public String patientName = "//*[@id='patientname']";
-	public String age = "//*[@id='age']";
-	public String male = "//*[@id='male']";
-	public String selectAllergy = "//*[@id='medicine1']";
-	public String prescriptionNo = "//*[@id='presnumber']";
+	public static String header = "//h2";
+	public static String age = "//*[@id='age']";
+	public static String male = "//*[@id='male']";
+	public static String selectAllergy = "//*[@id='medicine1']";
+	public static String prescriptionNo = "//*[@id='presnumber']";
+	
 	
 	public static void navigateToPage(WebDriver driver) throws Exception {
 		
