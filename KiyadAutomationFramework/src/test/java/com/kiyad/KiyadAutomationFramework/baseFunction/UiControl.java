@@ -8,18 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class UiControl {
-	
-//	Selenium sel;
-//	WebDriver driver;
-//	ScenarioContext context;
-//
-//	public UiControl(Selenium sel, ScenarioContext context) {
-//		this.sel = sel;
-//		this.driver = sel.getDriver();
-//		this.context = context;
-//		
-//	}
-	
+		
 	// handling standard dropbox
 		public static void dropbox(WebDriver driver, ScenarioContext context, String element, String value)
 				throws Exception {

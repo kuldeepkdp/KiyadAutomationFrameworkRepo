@@ -16,18 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UnitAction {
 	
-//	Selenium sel;
-//	WebDriver driver;
-//	ScenarioContext context;
-//
-//	public UnitAction(Selenium sel, ScenarioContext context) {
-//		this.sel = sel;
-//		this.driver = sel.getDriver();
-//		this.context = context;
-//		
-//	}
 	
-	 // To get data from configuration.properties file
+	// To get data from configuration.properties file
     public static String GetConfigData(String key) throws Exception {
 
         PropertiesConfiguration properties = new PropertiesConfiguration(

@@ -13,16 +13,6 @@ import static org.junit.Assert.*;
 
 public class UserAction {
 	
-//	Selenium sel;
-//	WebDriver driver;
-//	ScenarioContext context;
-//
-//	public UserAction(Selenium sel, ScenarioContext context) {
-//		this.sel = sel;
-//		this.driver = sel.getDriver();
-//		this.context = context;
-//		
-//	}
 
 	// User navigate to Page .It will set current page
 	public static void navigateToPage(WebDriver driver, ScenarioContext context, String navigateToPageName) throws Exception {

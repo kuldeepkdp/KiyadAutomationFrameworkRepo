@@ -4,17 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public class ApplicationSpecificUserAction {
 	
-//	Selenium sel;
-//	WebDriver driver;
-//	ScenarioContext context;
-//
-//	public ApplicationSpecificUserAction(Selenium sel, ScenarioContext context) {
-//		this.sel = sel;
-//		this.driver = sel.getDriver();
-//		this.context = context;
-//		
-//	}
-//	
+	
 	public static void logInAsUser(WebDriver driver, ScenarioContext context, String UserType) throws Exception {
         String userName = null;
         String password = null;
