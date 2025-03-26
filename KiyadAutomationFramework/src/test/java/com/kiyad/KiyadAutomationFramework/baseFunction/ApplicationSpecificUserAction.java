@@ -4,13 +4,26 @@ import org.openqa.selenium.WebDriver;
 
 public class ApplicationSpecificUserAction {
 	
-	public static void logInAsUser(WebDriver driver, String UserType) throws Exception {
+//	Selenium sel;
+//	WebDriver driver;
+//	ScenarioContext context;
+//
+//	public ApplicationSpecificUserAction(Selenium sel, ScenarioContext context) {
+//		this.sel = sel;
+//		this.driver = sel.getDriver();
+//		this.context = context;
+//		
+//	}
+//	
+	public static void logInAsUser(WebDriver driver, ScenarioContext context, String UserType) throws Exception {
         String userName = null;
         String password = null;
         
         UserAction.clickOnLink(driver, "Sign In");
         
-        UnitAction.setCurrentPage("Login");
+        //UnitAction.setCurrentPage("Login");
+        
+        context.setContext("currentPage", "Login");
         
         if(UserType.equalsIgnoreCase("Admin")) {
             userName = UnitAction.GetData("$adminUserName");
@@ -28,8 +41,8 @@ public class ApplicationSpecificUserAction {
         }
         
         UserAction.waitFor(2);
-        UserAction.sendKeys(driver, "email", userName);
-        UserAction.sendKeys(driver, "password", password);
+        UserAction.sendKeys(driver, context, "email", userName);
+        UserAction.sendKeys(driver, context, "password", password);
         UserAction.clickOnLink(driver, "Submit");
     }
 

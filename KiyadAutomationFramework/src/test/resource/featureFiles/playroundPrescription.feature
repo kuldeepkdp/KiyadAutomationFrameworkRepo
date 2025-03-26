@@ -5,7 +5,7 @@ Feature: This feature file contain scenarios related to create prescription
     Given user login as 'Admin' user
 
    @Dev
-  Scenario: Verify that user can register on playround application
+  Scenario: Verify that user can add prescription
     Then user is now on the 'Home' page
     And user clicks on the 'Handling Record Creation' link
     Then user is now on the 'AddPrescription' page
@@ -34,7 +34,7 @@ Feature: This feature file contain scenarios related to create prescription
     When user waits for 10 seconds
     
 
-  Scenario: Verify that user can do registration 
+  Scenario: Verify that user can create medication
     Then user is now on the 'Home' page
     
     ##Go HandlingDropdown page

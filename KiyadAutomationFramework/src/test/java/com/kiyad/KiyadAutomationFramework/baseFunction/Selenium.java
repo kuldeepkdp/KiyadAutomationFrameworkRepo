@@ -62,7 +62,7 @@ public class Selenium {
 
 		}
         try {
-        	UserAction.click(driver, "logout");
+//        	UserAction.click(driver, "logout");
         }catch(Exception e){
         	
         }

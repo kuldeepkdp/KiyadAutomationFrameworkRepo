@@ -12,26 +12,39 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.junit.Assert.*;
 
 public class UserAction {
+	
+//	Selenium sel;
+//	WebDriver driver;
+//	ScenarioContext context;
+//
+//	public UserAction(Selenium sel, ScenarioContext context) {
+//		this.sel = sel;
+//		this.driver = sel.getDriver();
+//		this.context = context;
+//		
+//	}
 
 	// User navigate to Page .It will set current page
-	public static void navigateToPage(WebDriver driver, String navigateToPageName) throws Exception {
+	public static void navigateToPage(WebDriver driver, ScenarioContext context, String navigateToPageName) throws Exception {
 
 		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + navigateToPageName;
 		Class<?> cls = Class.forName(fullPathOfTheClass);
-		Method method = cls.getDeclaredMethod("navigateToPage", WebDriver.class);
-		method.invoke(null, driver);
-		UnitAction.setCurrentPage(navigateToPageName);
+		Method method = cls.getDeclaredMethod("navigateToPage", WebDriver.class, ScenarioContext.class);
+		method.invoke(null, driver, context);
+		//UnitAction.setCurrentPage(context, navigateToPageName);
+		context.setContext("currentPage", navigateToPageName);
 
 	}
 
 	// User is directed to page.It will set current page
-	public static void assertOnPage(WebDriver driver, String pagename) throws Exception {
+	public static void assertOnPage(WebDriver driver, ScenarioContext context, String pagename) throws Exception {
 
-		UnitAction.setCurrentPage(pagename);
+		//UnitAction.setCurrentPage(pagename);
+		context.setContext("currentPage", pagename);
 		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + pagename;
 		Class<?> cls = Class.forName(fullPathOfTheClass);
-		Method method = cls.getDeclaredMethod("assertOnPage", WebDriver.class);
-		method.invoke(null, driver);
+		Method method = cls.getDeclaredMethod("assertOnPage", WebDriver.class, ScenarioContext.class);
+		method.invoke(null, driver, context);
 
 	}
 
@@ -42,55 +55,55 @@ public class UserAction {
 	}
 
 	// Custom click method
-	public static void click(WebDriver driver, String element) throws Exception {
+	public static void click(WebDriver driver, ScenarioContext context, String element) throws Exception {
 
-		WebElement webElement = UnitAction.getElement(driver, element);
+		WebElement webElement = UnitAction.getElement(driver, context, element);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		wait.until(ExpectedConditions.elementToBeClickable(webElement));
 		webElement.click();
 	}
 
-	public static void sendKeys(WebDriver driver, String element, String value) throws Exception {
+	public static void sendKeys(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-		UnitAction.getElement(driver, element).sendKeys(value);
+		UnitAction.getElement(driver, context, element).sendKeys(value);
 	}
 
 	// Set the value on mentioned UI controls
-	public static void setValue(WebDriver driver, String element, String type, String value, String alias)
+	public static void setValue(WebDriver driver, ScenarioContext context, String element, String type, String value, String alias)
 			throws Exception {
-		String processedValue = UnitAction.getProcessedValue(value);
+		String processedValue = UnitAction.getProcessedValue(context,value);
 
 		if (type.equalsIgnoreCase("textbox")) {
 
-			UiControl.textbox(driver, element, processedValue);
+			UiControl.textbox(driver, context, element, processedValue);
 
 		} else if (type.equalsIgnoreCase("dropbox")) {
-			UiControl.dropbox(driver, element, processedValue);
+			UiControl.dropbox(driver, context, element, processedValue);
 		}
 
 		else if (type.equalsIgnoreCase("date")) {
-			UiControl.date(driver, element, processedValue);
+			UiControl.date(driver, context, element, processedValue);
 		}
 
 		else if (type.equalsIgnoreCase("lookup")) {
-			UiControl.lookup(driver, element, processedValue);
+			UiControl.lookup(driver, context, element, processedValue);
 		}
 
 		else if (type.equalsIgnoreCase("multiSelectDropbox")) {
-			UiControl.multiSelectDropbox(driver, element, processedValue);
+			UiControl.multiSelectDropbox(driver, context, element, processedValue);
 		}
 		
 		else if (type.equalsIgnoreCase("radio")) {
-			UiControl.radio(driver, element, processedValue);
+			UiControl.radio(driver, context, element, processedValue);
 		}
 
 		else {
 
-			UiControl.textbox(driver, element, processedValue);
+			UiControl.textbox(driver, context, element, processedValue);
 
 		}
 
-		UnitAction.setAlias(alias, processedValue);
+		UnitAction.setAlias(context,alias, processedValue);
 	}
 
 	public static void clickOnButton(WebDriver driver, String buttonName) {
@@ -176,18 +189,18 @@ public class UserAction {
 
 	}
 
-	public static void elementTextIsEqual(WebDriver driver, String element, String value) throws Exception {
+	public static void elementTextIsEqual(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-		String expectedValue = UnitAction.getProcessedValue(value);
-		WebElement webElement = UnitAction.getElement(driver, element);
+		String expectedValue = UnitAction.getProcessedValue(context, value);
+		WebElement webElement = UnitAction.getElement(driver, context, element);
 		String actualValue = webElement.getText();
 		assertEquals("element does not contain " + expectedValue, expectedValue, actualValue);
 	}
 
-	public static void elementContainingText(WebDriver driver, String element, String value) throws Exception {
+	public static void elementContainingText(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-		String expectedValue = UnitAction.getProcessedValue(value);
-		WebElement webElement = UnitAction.getElement(driver, element);
+		String expectedValue = UnitAction.getProcessedValue(context, value);
+		WebElement webElement = UnitAction.getElement(driver, context, element);
 		assertTrue("Element does not contain text " + expectedValue, webElement.getText().contains(expectedValue));
 	}
 
@@ -218,10 +231,10 @@ public class UserAction {
 	}
 
 	// Element is displayed or not.
-	public static boolean isElementDisplayed(WebDriver driver, String element) {
+	public static boolean isElementDisplayed(WebDriver driver, ScenarioContext context, String element) {
 		try {
 
-			WebElement webElement = UnitAction.getElement(driver, element);
+			WebElement webElement = UnitAction.getElement(driver, context, element);
 			return webElement.isDisplayed();
 
 		} catch (Exception e) {
@@ -230,18 +243,18 @@ public class UserAction {
 		}
 	}
 
-	public static void storeElementText(WebDriver driver, String element, String alias) throws Exception {
+	public static void storeElementText(WebDriver driver, ScenarioContext context, String element, String alias) throws Exception {
 
-		WebElement webElement = UnitAction.getElement(driver, element);
+		WebElement webElement = UnitAction.getElement(driver, context, element);
 		String text = webElement.getText();
 		if (text.isEmpty()) {
 			text = webElement.getAttribute("value");
 		}
-		UnitAction.SetRunTimeData(alias, text);
+		UnitAction.SetRunTimeData(context, alias, text);
 	}
 
-	public static void clearElement(WebDriver driver, String element) throws Exception {
-		WebElement webElement = UnitAction.getElement(driver, element);
+	public static void clearElement(WebDriver driver, ScenarioContext context, String element) throws Exception {
+		WebElement webElement = UnitAction.getElement(driver, context, element);
 		webElement.clear();
 	}
 

@@ -16,6 +16,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UnitAction {
 	
+//	Selenium sel;
+//	WebDriver driver;
+//	ScenarioContext context;
+//
+//	public UnitAction(Selenium sel, ScenarioContext context) {
+//		this.sel = sel;
+//		this.driver = sel.getDriver();
+//		this.context = context;
+//		
+//	}
+	
 	 // To get data from configuration.properties file
     public static String GetConfigData(String key) throws Exception {
 
@@ -38,45 +49,53 @@ public class UnitAction {
         }
 
         return properties.getString(key);
+        
+        
     }
 
     // To Get data from RunTimeDataRepo.properties file
-    public static String GetRunTimeData(String key) throws Exception {
+    public static String GetRunTimeData(ScenarioContext context, String key) throws Exception {
 
-        PropertiesConfiguration properties = new PropertiesConfiguration(
-                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
-        return properties.getString(key);
+//        PropertiesConfiguration properties = new PropertiesConfiguration(
+//                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
+//        return properties.getString(key);
+    	return context.getContext(key);
 
     }
 
     // To Set data into RunTimeDataRepo.properties file
-    public static void SetRunTimeData(String key, String value) throws Exception {
+    public static void SetRunTimeData(ScenarioContext context, String key, String value) throws Exception {
 
-        PropertiesConfiguration properties = new PropertiesConfiguration(
-                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
-        properties.setProperty(key, value);
-        properties.save();
+//        PropertiesConfiguration properties = new PropertiesConfiguration(
+//                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
+//        properties.setProperty(key, value);
+//        properties.save();
+    	context.setContext(key, value);
+    	
     }
 
  
     // To Get Current Page
-    public static String getCurrentPage() throws Exception {
-        return GetRunTimeData("currentPage");
+    public static String getCurrentPage(ScenarioContext context) throws Exception {
+//        return GetRunTimeData("currentPage");
+    	return context.getContext("currentPage");
     }
 
     // To Set Current Page
-    public static void setCurrentPage(String page) throws Exception {
-        SetRunTimeData("currentPage", page);
+    public static void setCurrentPage(ScenarioContext context, String page) throws Exception {
+        //SetRunTimeData("currentPage", page);
+        context.setContext("currentPage", page);
+        
     }
 
 	// To get XPath
-	public static String getXPath(String element) throws Exception {
+	public static String getXPath(ScenarioContext context, String element) throws Exception {
 
 		String xPath = null;
 		Field field = null;
 		boolean isFieldAvailable = true;
 
-		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + getCurrentPage();
+		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + context.getContext("currentPage");
 
 		Class<?> cls = Class.forName(fullPathOfTheClass);
 
@@ -130,9 +149,9 @@ public class UnitAction {
     }
     
     //To get WebElement
-    public static WebElement getElement(WebDriver driver, String element)
+    public static WebElement getElement(WebDriver driver, ScenarioContext context, String element)
             throws Exception {
-        String xPath = getXPath(element);
+        String xPath = getXPath(context, element);
         waitUntilDocumentIsReady(driver);
 //        WebDriverWait wait = new WebDriverWait(driver, 30);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -141,8 +160,8 @@ public class UnitAction {
     }
 
     // //To get WebElement list
-    public static List<WebElement> getElements(WebDriver driver, String element) throws Exception {
-        String xPath = getXPath(element);
+    public static List<WebElement> getElements(WebDriver driver,  ScenarioContext context, String element) throws Exception {
+        String xPath = getXPath(context, element);
         waitUntilDocumentIsReady(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((By.xpath(xPath))));
@@ -178,12 +197,12 @@ public class UnitAction {
 
     // This method will return value from properties file, random values or just the
     // passed value as per value format
-    public static String getProcessedValue(String value) throws Exception {
+    public static String getProcessedValue(ScenarioContext context, String value) throws Exception {
         if (value.startsWith("$")) {
             return UnitAction.GetData(value);
         }
         else if (value.startsWith("&")) {
-            return UnitAction.GetRunTimeData(value);
+            return UnitAction.GetRunTimeData(context, value);
         } 
         
         else if (value.equals("RANDOM_STRING")) {
@@ -200,12 +219,12 @@ public class UnitAction {
     }
 
 	// This method will set alias on runTimeDataRepo file
-	public static void setAlias(String alias, String value) throws Exception {
+	public static void setAlias(ScenarioContext context, String alias, String value) throws Exception {
 
 		boolean isEmpty = alias == null || alias.isEmpty() || alias.isBlank();
 
 		if (!isEmpty) {
-			UnitAction.SetRunTimeData(alias, value);
+			UnitAction.SetRunTimeData(context,alias, value);
 		}
 	}
 

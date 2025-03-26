@@ -2,6 +2,7 @@ package com.kiyad.KiyadAutomationFramework.pages;
 
 import org.openqa.selenium.WebDriver;
 
+import com.kiyad.KiyadAutomationFramework.baseFunction.ScenarioContext;
 import com.kiyad.KiyadAutomationFramework.baseFunction.UserAction;
 
 public class MedicationDetails {
@@ -19,9 +20,9 @@ public class MedicationDetails {
 		
 	}
 
-	public static void assertOnPage(WebDriver driver) throws Exception {
+	public static void assertOnPage(WebDriver driver, ScenarioContext context) throws Exception {
 		
-		UserAction.elementContainingText(driver, "header", "Medication details");
+		UserAction.elementContainingText(driver, context, "header", "Medication details");
 
 	}
 
