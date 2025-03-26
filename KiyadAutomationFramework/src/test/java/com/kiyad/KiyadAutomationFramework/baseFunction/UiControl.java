@@ -9,12 +9,23 @@ import org.openqa.selenium.WebElement;
 
 public class UiControl {
 	
+//	Selenium sel;
+//	WebDriver driver;
+//	ScenarioContext context;
+//
+//	public UiControl(Selenium sel, ScenarioContext context) {
+//		this.sel = sel;
+//		this.driver = sel.getDriver();
+//		this.context = context;
+//		
+//	}
+	
 	// handling standard dropbox
-		public static void dropbox(WebDriver driver, String element, String value)
+		public static void dropbox(WebDriver driver, ScenarioContext context, String element, String value)
 				throws Exception {
 
-			UserAction.click(driver, element);
-			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(element)))
+			UserAction.click(driver, context, element);
+			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(context, element)))
 					.findElements(By.xpath("//option"));
 			for (WebElement e : option) {
 				if (e.getText().equals(value)) {
@@ -24,11 +35,11 @@ public class UiControl {
 		}
 
 		// handling list dropbox
-		public static void dropbox2(WebDriver driver, String element, String value)
+		public static void dropbox2(WebDriver driver,ScenarioContext context, String element, String value)
 				throws Exception {
 
-			UserAction.click(driver, element);
-			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(element)))
+			UserAction.click(driver, context, element);
+			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(context, element)))
 					.findElements(By.xpath("//li[@role='option']"));
 			for (WebElement e : option) {
 				if (e.getText().equals(value)) {
@@ -38,11 +49,11 @@ public class UiControl {
 		}
 
 		// handling span dropbox
-		public static void dropbox3(WebDriver driver, String element, String value)
+		public static void dropbox3(WebDriver driver, ScenarioContext context, String element, String value)
 				throws Exception {
 
-			UserAction.click(driver, element);
-			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(element)))
+			UserAction.click(driver, context, element);
+			List<WebElement> option = driver.findElement(By.xpath(UnitAction.getXPath(context, element)))
 					.findElements(By.xpath("//li[@role='option']"));
 			for (WebElement e : option) {
 				if (e.getText().equals(value)) {
@@ -52,19 +63,19 @@ public class UiControl {
 		}
 
 		// handling textbox
-		public static void textbox(WebDriver driver, String element, String value) throws Exception {
-			UserAction.sendKeys(driver, element, value);
+		public static void textbox(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
+			UserAction.sendKeys(driver,context, element, value);
 		}
 
 		// handling date
-		public static void date(WebDriver driver, String element, String value) throws Exception {
-			UserAction.sendKeys(driver, element, value);
+		public static void date(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
+			UserAction.sendKeys(driver, context, element, value);
 		}
 
 		// handling lookup
-		public static void lookup(WebDriver driver, String element, String value) throws Exception {
+		public static void lookup(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-			WebElement ele = UnitAction.getElement(driver, element);
+			WebElement ele = UnitAction.getElement(driver, context, element);
 			ele.sendKeys(value);
 			Thread.sleep(4000);
 			ele.sendKeys(Keys.TAB);
@@ -72,9 +83,9 @@ public class UiControl {
 		}
 
 		// handling multiSelectDropbox
-		public static void multiSelectDropbox(WebDriver driver, String element, String value) throws Exception {
+		public static void multiSelectDropbox(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-			WebElement ele = UnitAction.getElement(driver, element);
+			WebElement ele = UnitAction.getElement(driver, context, element);
 			String id = ele.getAttribute("aria-owns");
 			ele.click();
 			UserAction.waitFor(2);
@@ -85,9 +96,9 @@ public class UiControl {
 		}
 
 		// handling radio
-		public static void radio(WebDriver driver, String element, String value) throws Exception {
+		public static void radio(WebDriver driver, ScenarioContext context, String element, String value) throws Exception {
 
-			WebElement ele = UnitAction.getElement(driver, element);
+			WebElement ele = UnitAction.getElement(driver, context, element);
 
 			if (value.equals("true")) {
 				ele.click();
