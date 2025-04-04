@@ -21,7 +21,6 @@ public class UserAction {
 		Class<?> cls = Class.forName(fullPathOfTheClass);
 		Method method = cls.getDeclaredMethod("navigateToPage", WebDriver.class, ScenarioContext.class);
 		method.invoke(null, driver, context);
-		//UnitAction.setCurrentPage(context, navigateToPageName);
 		context.setContext("currentPage", navigateToPageName);
 
 	}
@@ -29,7 +28,6 @@ public class UserAction {
 	// User is directed to page.It will set current page
 	public static void assertOnPage(WebDriver driver, ScenarioContext context, String pagename) throws Exception {
 
-		//UnitAction.setCurrentPage(pagename);
 		context.setContext("currentPage", pagename);
 		String fullPathOfTheClass = "com.kiyad.KiyadAutomationFramework.pages." + pagename;
 		Class<?> cls = Class.forName(fullPathOfTheClass);

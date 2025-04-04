@@ -15,68 +15,58 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UnitAction {
-	
-	
+
 	// To get data from configuration.properties file
-    public static String GetConfigData(String key) throws Exception {
+	public static String GetConfigData(String key) throws Exception {
 
-        PropertiesConfiguration properties = new PropertiesConfiguration(
-                System.getProperty("user.dir") + "//src//test//resource//dataRepo//configuration.properties");
-        return properties.getString(key);
-    }
+		PropertiesConfiguration properties = new PropertiesConfiguration(
+				System.getProperty("user.dir") + "//src//test//resource//dataRepo//configuration.properties");
+		return properties.getString(key);
+	}
 
-    // To get data from environment mentioned in configuration.properties file
-    public static String GetData(String key) throws Exception {
-        PropertiesConfiguration properties;
-        if (GetConfigData("getDataFromEnvironment").equals("testEnvironment")) {
-            properties = new PropertiesConfiguration(
-                    System.getProperty("user.dir") + "//src//test//resource//dataRepo//testEnvironment.properties");
-        } else if (GetConfigData("getDataFromEnvironment").equals("sandboxEnvironment")) {
-            properties = new PropertiesConfiguration(
-                    System.getProperty("user.dir") + "//src//test//resource//dataRepo//sandboxEnvironment.properties");
-        } else {
-            throw new Exception("mentioned environment is not iplemented to get data");
-        }
+	// To get data from environment mentioned in configuration.properties file
+	public static String GetData(String key) throws Exception {
+		PropertiesConfiguration properties;
+		if (GetConfigData("getDataFromEnvironment").equals("testEnvironment")) {
+			properties = new PropertiesConfiguration(
+					System.getProperty("user.dir") + "//src//test//resource//dataRepo//testEnvironment.properties");
+		} else if (GetConfigData("getDataFromEnvironment").equals("sandboxEnvironment")) {
+			properties = new PropertiesConfiguration(
+					System.getProperty("user.dir") + "//src//test//resource//dataRepo//sandboxEnvironment.properties");
+		} else {
+			throw new Exception("mentioned environment is not iplemented to get data");
+		}
 
-        return properties.getString(key);
-        
-        
-    }
+		return properties.getString(key);
 
-    // To Get data from RunTimeDataRepo.properties file
-    public static String GetRunTimeData(ScenarioContext context, String key) throws Exception {
+	}
 
-//        PropertiesConfiguration properties = new PropertiesConfiguration(
-//                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
-//        return properties.getString(key);
-    	return context.getContext(key);
+	// To Get data from RunTimeDataRepo.properties file
+	public static String GetRunTimeData(ScenarioContext context, String key) throws Exception {
 
-    }
+		return context.getContext(key);
 
-    // To Set data into RunTimeDataRepo.properties file
-    public static void SetRunTimeData(ScenarioContext context, String key, String value) throws Exception {
+	}
 
-//        PropertiesConfiguration properties = new PropertiesConfiguration(
-//                System.getProperty("user.dir") + "//src//test//resource//dataRepo//runTimeDataRepo.properties");
-//        properties.setProperty(key, value);
-//        properties.save();
-    	context.setContext(key, value);
-    	
-    }
+	// To Set data into RunTimeDataRepo.properties file
+	public static void SetRunTimeData(ScenarioContext context, String key, String value) throws Exception {
 
- 
-    // To Get Current Page
-    public static String getCurrentPage(ScenarioContext context) throws Exception {
-//        return GetRunTimeData("currentPage");
-    	return context.getContext("currentPage");
-    }
+		context.setContext(key, value);
 
-    // To Set Current Page
-    public static void setCurrentPage(ScenarioContext context, String page) throws Exception {
-        //SetRunTimeData("currentPage", page);
-        context.setContext("currentPage", page);
-        
-    }
+	}
+
+	// To Get Current Page
+	public static String getCurrentPage(ScenarioContext context) throws Exception {
+
+		return context.getContext("currentPage");
+	}
+
+	// To Set Current Page
+	public static void setCurrentPage(ScenarioContext context, String page) throws Exception {
+
+		context.setContext("currentPage", page);
+
+	}
 
 	// To get XPath
 	public static String getXPath(ScenarioContext context, String element) throws Exception {
@@ -117,96 +107,92 @@ public class UnitAction {
 		return xPath;
 	}
 
-    // To get JavascriptExecutor object
-    public static JavascriptExecutor getJavascriptExecutor(WebDriver driver) {
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-        return javascriptExecutor;
-    }
+	// To get JavascriptExecutor object
+	public static JavascriptExecutor getJavascriptExecutor(WebDriver driver) {
+		JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+		return javascriptExecutor;
+	}
 
-    //Wait until Document is Ready
-    public static void waitUntilDocumentIsReady(WebDriver driver) throws InterruptedException {
+	// Wait until Document is Ready
+	public static void waitUntilDocumentIsReady(WebDriver driver) throws InterruptedException {
 
-        for (int i = 0; i < 30; i++) {         
-            // To check page ready state.
-            if (getJavascriptExecutor(driver).executeScript("return document.readyState").toString()
-                    .equals("complete")) {
-                break;
-            }
-            else {
-                Thread.sleep(1000);
-            }
-        }
-    }
-    
-    //To get WebElement
-    public static WebElement getElement(WebDriver driver, ScenarioContext context, String element)
-            throws Exception {
-        String xPath = getXPath(context, element);
-        waitUntilDocumentIsReady(driver);
+		for (int i = 0; i < 30; i++) {
+			// To check page ready state.
+			if (getJavascriptExecutor(driver).executeScript("return document.readyState").toString()
+					.equals("complete")) {
+				break;
+			} else {
+				Thread.sleep(1000);
+			}
+		}
+	}
+
+	// To get WebElement
+	public static WebElement getElement(WebDriver driver, ScenarioContext context, String element) throws Exception {
+		String xPath = getXPath(context, element);
+		waitUntilDocumentIsReady(driver);
 //        WebDriverWait wait = new WebDriverWait(driver, 30);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(xPath))));
-        return driver.findElement(By.xpath(xPath));
-    }
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(xPath))));
+		return driver.findElement(By.xpath(xPath));
+	}
 
-    // //To get WebElement list
-    public static List<WebElement> getElements(WebDriver driver,  ScenarioContext context, String element) throws Exception {
-        String xPath = getXPath(context, element);
-        waitUntilDocumentIsReady(driver);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((By.xpath(xPath))));
-        return driver.findElements(By.xpath(xPath));
-    }
+	// //To get WebElement list
+	public static List<WebElement> getElements(WebDriver driver, ScenarioContext context, String element)
+			throws Exception {
+		String xPath = getXPath(context, element);
+		waitUntilDocumentIsReady(driver);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((By.xpath(xPath))));
+		return driver.findElements(By.xpath(xPath));
+	}
 
-    public static void waitUntilElementToBeClickable(WebDriver driver, WebElement element) throws Exception {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-    }
+	public static void waitUntilElementToBeClickable(WebDriver driver, WebElement element) throws Exception {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+	}
 
-    // To generate random string
-    public static String generateString(int count) {
-        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder builder = new StringBuilder();
-        while (count-- != 0) {
-            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-        }
-        return builder.toString();
-    }
-    
-    // To get date
-    public static String getCurrentDate() {
+	// To generate random string
+	public static String generateString(int count) {
+		String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder builder = new StringBuilder();
+		while (count-- != 0) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+		return builder.toString();
+	}
 
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String strDate = formatter.format(date);
-        return strDate;
+	// To get date
+	public static String getCurrentDate() {
 
-    }
-        
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String strDate = formatter.format(date);
+		return strDate;
 
-    // This method will return value from properties file, random values or just the
-    // passed value as per value format
-    public static String getProcessedValue(ScenarioContext context, String value) throws Exception {
-        if (value.startsWith("$")) {
-            return UnitAction.GetData(value);
-        }
-        else if (value.startsWith("&")) {
-            return UnitAction.GetRunTimeData(context, value);
-        } 
-        
-        else if (value.equals("RANDOM_STRING")) {
-            return UnitAction.generateString(8);
-        } 
-        
-        else if (value.equals("CURRENT_DATE")) {
-            return UnitAction.getCurrentDate();
-        } 
-        
-        
-        else
-            return value;
-    }
+	}
+
+	// This method will return value from properties file, random values or just the
+	// passed value as per value format
+	public static String getProcessedValue(ScenarioContext context, String value) throws Exception {
+		if (value.startsWith("$")) {
+			return UnitAction.GetData(value);
+		} else if (value.startsWith("&")) {
+			return UnitAction.GetRunTimeData(context, value);
+		}
+
+		else if (value.equals("RANDOM_STRING")) {
+			return UnitAction.generateString(8);
+		}
+
+		else if (value.equals("CURRENT_DATE")) {
+			return UnitAction.getCurrentDate();
+		}
+
+		else
+			return value;
+	}
 
 	// This method will set alias on runTimeDataRepo file
 	public static void setAlias(ScenarioContext context, String alias, String value) throws Exception {
@@ -214,7 +200,7 @@ public class UnitAction {
 		boolean isEmpty = alias == null || alias.isEmpty() || alias.isBlank();
 
 		if (!isEmpty) {
-			UnitAction.SetRunTimeData(context,alias, value);
+			UnitAction.SetRunTimeData(context, alias, value);
 		}
 	}
 
